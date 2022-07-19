@@ -2,7 +2,6 @@ import css from './index.module.css';
 import ImageGalleryItem from '../ImageGalleryItem';
 
 function ImageGallery(images, onClick) {
-
   return (
     <>
       <ul className={css.gallery}>
