@@ -14,7 +14,9 @@ class ImageGalleryItem extends Component {
   };
 
   closeModal = e => {
-    if (e.keyCode === 27 || e.target.nodeName !== 'IMG') {
+    console.log(e.keyCode);
+
+    if (e.keyCode === 27 || e.target.nodeName === 'DIV') {
       this.setState({ showModalWindow: false });
       window.removeEventListener('keydown', this.closeModal);
       window.removeEventListener('mousedown', this.closeModal);
