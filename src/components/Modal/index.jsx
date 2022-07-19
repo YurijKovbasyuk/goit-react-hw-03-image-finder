@@ -1,10 +1,11 @@
 import css from './index.module.css';
 
-function Modal() {
+function Modal(largeImageURL, tags, closeModal) {
+  console.log(largeImageURL);
   return (
-    <div className={css.overlay}>
+    <div onClick={closeModal} className={css.overlay}>
       <div className={css.modal}>
-        <img src="" alt="" />
+        <img src={largeImageURL.largeImageURL} alt={tags} />
       </div>
     </div>
   );

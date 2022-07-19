@@ -1,9 +1,25 @@
 import css from './index.module.css';
-function ImageGallery() {
+import ImageGalleryItem from '../ImageGalleryItem';
+
+function ImageGallery(images, onClick) {
+  console.log(images);
+
   return (
-    <ul className={css.gallery}>
-      ImageGallery{/* <!-- Набір <li> із зображеннями --> */}
-    </ul>
+    <>
+      <ul className={css.gallery}>
+        {images.images.map(({ webformatURL, tags, id, largeImageURL }) => {
+          return (
+            <ImageGalleryItem
+              key={id}
+              webformatURL={webformatURL}
+              alt={tags}
+              largeImageURL={largeImageURL}
+              onClick={onClick}
+            />
+          );
+        })}
+      </ul>
+    </>
   );
 }
 
