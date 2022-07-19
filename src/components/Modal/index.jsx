@@ -1,4 +1,5 @@
 import css from './index.module.css';
+import PropTypes from 'prop-types';
 
 function Modal(largeImageURL, tags, closeModal) {
   return (
@@ -9,5 +10,9 @@ function Modal(largeImageURL, tags, closeModal) {
     </div>
   );
 }
+
+Modal.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+};
 
 export default Modal;

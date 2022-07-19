@@ -1,5 +1,6 @@
 import css from './index.module.css';
 import ImageGalleryItem from '../ImageGalleryItem';
+import PropTypes from 'prop-types';
 
 function ImageGallery(images, onClick) {
   return (
@@ -10,7 +11,7 @@ function ImageGallery(images, onClick) {
             <ImageGalleryItem
               key={id}
               webformatURL={webformatURL}
-              alt={tags}
+              tags={tags}
               largeImageURL={largeImageURL}
               onClick={onClick}
             />
@@ -20,5 +21,9 @@ function ImageGallery(images, onClick) {
     </>
   );
 }
+ImageGallery.propTypes = {
+  images: PropTypes.array.isRequired,
+  onClick: PropTypes.func,
+};
 
 export default ImageGallery;

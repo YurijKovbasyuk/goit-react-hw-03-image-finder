@@ -75,7 +75,7 @@ class App extends Component {
             <span className={css.cotact}>Contact your administrator</span>
           </p>
         )}
-        <ImageGallery images={images} />
+        {images.length !== 0 && <ImageGallery images={images} />}
         {isVisible && <Button onClick={handleLoadMore} isLoading={isLoading} />}
       </div>
     );
