@@ -1,4 +1,5 @@
 import css from './index.module.css';
+import PropTypes from 'prop-types';
 
 function Button(props) {
   const { onClick, isLoading } = props;
@@ -15,5 +16,10 @@ function Button(props) {
     </div>
   );
 }
+
+Button.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
+};
 
 export default Button;

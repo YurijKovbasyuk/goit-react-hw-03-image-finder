@@ -3,7 +3,8 @@ import { Component } from 'react';
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery/index';
 import Button from './Button';
-import * as API from './API/API';
+import * as API from '../API/API';
+// import Modal from './Modal';
 
 class App extends Component {
   state = {
@@ -14,6 +15,7 @@ class App extends Component {
     isVisible: false,
     error: null,
     isLoading: false,
+    showModalWindow: false,
   };
 
   // componentDidMount() {
@@ -61,9 +63,31 @@ class App extends Component {
     console.log(this.state.page);
   };
 
+  // openModal = e => {
+  //   console.log(e);
+  //   this.setState(prevState => ({ showModalWindow: !prevState }));
+  // };
+  openModal = () => {
+    this.setState({ showModalWindow: true });
+    window.addEventListener('keydown', this.closeModal);
+    window.addEventListener('mousedown', this.closeModal);
+  };
+
+  closeModal = e => {
+    console.log(e);
+    console.log(this.props);
+    console.log(this.props.showModalWindow);
+    if (e.keyCode === 27 || e.target.nodeName === 'DIV') {
+      this.setState({ showModalWindow: false });
+      window.removeEventListener('keydown', this.closeModal);
+      window.removeEventListener('mousedown', this.closeModal);
+    }
+  };
+
   render() {
-    const { handleSubmitForm, handleLoadMore } = this;
-    const { isVisible, images, error, isLoading } = this.state;
+    const { handleSubmitForm, handleLoadMore, openModal } = this;
+    const { isVisible, images, error, isLoading, showModalWindow } = this.state;
+
     return (
       <div className={css.app}>
         <Searchbar onSubmit={handleSubmitForm} />
@@ -75,8 +99,15 @@ class App extends Component {
             <span className={css.cotact}>Contact your administrator</span>
           </p>
         )}
-        {images.length !== 0 && <ImageGallery images={images} />}
+        {images.length !== 0 && (
+          <ImageGallery
+            images={images}
+            openModal={openModal}
+            showModalWindow={showModalWindow}
+          />
+        )}
         {isVisible && <Button onClick={handleLoadMore} isLoading={isLoading} />}
+        {/* {showModalWindow && <Modal />} */}
       </div>
     );
   }
