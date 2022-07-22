@@ -1,43 +1,39 @@
 import css from './index.module.css';
 import { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 class Modal extends Component {
-  // state = {
-  //   showModalWindow: false,
-  // };
-  // (largeImageURL, tags, closeModal)
-  // openModal = () => {
-  //   this.setState({ showModalWindow: true });
-  //   window.addEventListener('keydown', this.closeModal);
-  //   window.addEventListener('mousedown', this.closeModal);
-  // };
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
+  }
 
-  // closeModal = e => {
-  //   console.log(e);
-  //   console.log(this.props);
-  //   console.log(this.props.showModalWindow);
-  //   if (e.keyCode === 27 || e.target.nodeName === 'DIV') {
-  //     this.props.showModalWindow(this.setState({ showModalWindow: false }));
-  //     window.removeEventListener('keydown', this.closeModal);
-  //     window.removeEventListener('mousedown', this.closeModal);
-  //   }
-  // };
+  componentWillMount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown = e => {
+    if (e.code === 'Escape') {
+      this.props.onClose();
+    }
+  };
+
+  handleBackdropClick = e => {
+    if (e.currentTarget === e.target) {
+      this.props.onClose();
+    }
+  };
   render() {
-    const { largeImageURL, tags } = this.props;
-    console.log(largeImageURL);
+    const { children } = this.props;
     return (
-      <div className={css.overlay}>
-        <div className={css.modal}>
-          <img src={largeImageURL} alt={tags} />
-        </div>
+      <div className={css.overlay} onClick={this.handleBackdropClick}>
+        <div className={css.modal}>{children}</div>
       </div>
     );
   }
 }
 
-// Modal.propTypes = {
-//   closeModal: PropTypes.func.isRequired,
-// };
+Modal.propTypes = {
+  children: PropTypes.object,
+};
 
 export default Modal;

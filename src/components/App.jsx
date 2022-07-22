@@ -4,7 +4,7 @@ import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery/index';
 import Button from './Button';
 import * as API from '../API/API';
-// import Modal from './Modal';
+import Modal from './Modal';
 
 class App extends Component {
   state = {
@@ -16,15 +16,12 @@ class App extends Component {
     error: null,
     isLoading: false,
     showModalWindow: false,
+    largeImage: '',
   };
-
-  // componentDidMount() {
-  //   const { query, page, per_page } = this.state;
-  //   this.getPhotos(query, page, per_page);
-  // }
 
   componentDidUpdate(prevProps, prevState) {
     const { query, page, per_page } = this.state;
+
     if (prevState.query !== query || prevState.page !== page) {
       this.getPhotos(query, page, per_page);
     }
@@ -60,33 +57,27 @@ class App extends Component {
 
   handleLoadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
-    console.log(this.state.page);
   };
 
-  // openModal = e => {
-  //   console.log(e);
-  //   this.setState(prevState => ({ showModalWindow: !prevState }));
-  // };
-  openModal = () => {
-    this.setState({ showModalWindow: true });
-    window.addEventListener('keydown', this.closeModal);
-    window.addEventListener('mousedown', this.closeModal);
+  openModal = largeImageURL => {
+    this.setState({
+      showModalWindow: true,
+      largeImage: largeImageURL,
+    });
   };
 
-  closeModal = e => {
-    console.log(e);
-    console.log(this.props);
-    console.log(this.props.showModalWindow);
-    if (e.keyCode === 27 || e.target.nodeName === 'DIV') {
-      this.setState({ showModalWindow: false });
-      window.removeEventListener('keydown', this.closeModal);
-      window.removeEventListener('mousedown', this.closeModal);
-    }
+  closeModal = () => {
+    this.setState({
+      showModalWindow: false,
+      largeImage: '',
+    });
   };
 
   render() {
-    const { handleSubmitForm, handleLoadMore, openModal } = this;
-    const { isVisible, images, error, isLoading, showModalWindow } = this.state;
+    const { handleSubmitForm, handleLoadMore } = this;
+
+    const { isVisible, images, error, isLoading, showModalWindow, largeImage } =
+      this.state;
 
     return (
       <div className={css.app}>
@@ -99,15 +90,18 @@ class App extends Component {
             <span className={css.cotact}>Contact your administrator</span>
           </p>
         )}
+
         {images.length !== 0 && (
-          <ImageGallery
-            images={images}
-            openModal={openModal}
-            showModalWindow={showModalWindow}
-          />
+          <ImageGallery images={images} onImgClick={this.openModal} />
         )}
+
         {isVisible && <Button onClick={handleLoadMore} isLoading={isLoading} />}
-        {/* {showModalWindow && <Modal />} */}
+
+        {showModalWindow && (
+          <Modal onClose={this.closeModal}>
+            <img src={largeImage} alt="" />
+          </Modal>
+        )}
       </div>
     );
   }

@@ -2,37 +2,26 @@ import css from './index.module.css';
 import ImageGalleryItem from '../ImageGalleryItem';
 import PropTypes from 'prop-types';
 
-function ImageGallery(images, openModal, showModalWindow) {
-  // const { images, openModal, showModalWindow } = images;
-  // console.log(images.openModal);
-  // console.log(images.images);
-  // console.log(images.showModalWindow);
-
+function ImageGallery({ images, onImgClick }) {
   return (
-    <>
-      <ul className={css.gallery}>
-        {images.images.map(({ webformatURL, tags, id, largeImageURL }) => {
-          const { openModal, showModalWindow } = images;
-
-          return (
-            <ImageGalleryItem
-              key={id}
-              webformatURL={webformatURL}
-              tags={tags}
-              largeImageURL={largeImageURL}
-              openModal={openModal}
-              showModalWindow={showModalWindow}
-            />
-          );
-        })}
-      </ul>
-    </>
+    <ul className={css.gallery}>
+      {images.map(({ webformatURL, tags, id, largeImageURL }) => {
+        return (
+          <ImageGalleryItem
+            key={id}
+            webformatURL={webformatURL}
+            tags={tags}
+            largeImageURL={largeImageURL}
+            onModal={onImgClick}
+          />
+        );
+      })}
+    </ul>
   );
 }
 ImageGallery.propTypes = {
   images: PropTypes.array.isRequired,
-  // onClick: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
+  onImgClick: PropTypes.func.isRequired,
 };
 
 export default ImageGallery;
